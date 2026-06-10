@@ -1,0 +1,25 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+
+metadata:
+  name: team-b-rules
+  namespace: monitoring
+
+spec:
+  groups:
+
+    - name: team-b-alerts
+
+      rules:
+
+        - alert: TeamBTargetDown
+
+          expr: up{team="team-b"} == 0
+
+          for: 1m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: Team B target is down

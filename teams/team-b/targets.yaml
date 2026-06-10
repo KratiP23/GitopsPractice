@@ -1,0 +1,11 @@
+scrape_configs:
+
+  - job_name: team-b
+
+    static_configs:
+
+      - targets:
+          - 10.10.10.21:9100
+
+        labels:
+          team: team-b

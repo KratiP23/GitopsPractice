@@ -1,0 +1,33 @@
+name: Validate
+
+on:
+  pull_request:
+
+jobs:
+
+  validate:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: YAML Lint
+        run: yamllint .
+
+      - name: Install Promtool
+        run: |
+          wget https://github.com/prometheus/prometheus/releases/download/v3.5.0/prometheus-3.5.0.linux-amd64.tar.gz
+          tar -xzf prometheus-3.5.0.linux-amd64.tar.gz
+
+      - name: Validate Team A Rules
+        run: |
+          ./prometheus-3.5.0.linux-amd64/promtool check rules teams/team-a/vmrule.yaml
+
+      - name: Validate Team B Rules
+        run: |
+          ./prometheus-3.5.0.linux-amd64/promtool check rules teams/team-b/vmrule.yaml
