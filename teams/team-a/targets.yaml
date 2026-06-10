@@ -6,6 +6,7 @@ scrape_configs:
 
       - targets:
           - 10.10.10.11:9100
+          - 10.10.10.12:9100
 
         labels:
           team: team-a
