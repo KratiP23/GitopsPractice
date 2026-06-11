@@ -16,12 +16,15 @@ jobs:
       - name: YAML Lint
         run: yamllint .
 
-      - name: Download VictoriaMetrics
-        run: |
-          wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.143.0/victoria-metrics-linux-amd64-v1.143.0.tar.gz
-          tar -xzf victoria-metrics-linux-amd64-v1.143.0.tar.gz
+      - name: Validate Team A Rules
+        run: | 
+          docker run --rm \
+          -v ${{ github.workspace }}:/workspace \
+           victoriametrics/vmalert:v1.143.0 \
+           -rule=/workspace/teams/team-a/vmrule.yaml
 
-      - name: Validate all rule files
+      - name: Validate Team B Rules
         run: |
-            find teams -name "vmrule.yaml" -exec \
-            ./vmalert-linux-amd64 -rule {} -dryRun \;
+          docker run --rm \
+          -v ${{ github.workspace }}:/workspace \
+          victoriametrics/vmalert:v1.143.0 \ -rule=/workspace/teams/team-b/vmrule.yaml
