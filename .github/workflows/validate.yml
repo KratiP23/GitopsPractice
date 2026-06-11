@@ -16,10 +16,10 @@ jobs:
       - name: YAML Lint
         run: yamllint .
 
-      - name: Download vmalert
+      - name: Download VictoriaMetrics
         run: |
-          wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/latest/download/vmalert-linux-amd64
-          chmod +x vmalert-linux-amd64
+          wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.143.0/victoria-metrics-linux-amd64-v1.143.0.tar.gz 
+          tar -xzf victoria-metrics-linux-amd64-v1.143.0.tar.gz
 
       - name: Validate all rule files
         run: |
