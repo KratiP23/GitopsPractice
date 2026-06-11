@@ -16,10 +16,12 @@ jobs:
       - name: YAML Lint
         run: yamllint .
 
-      - name: Download vmalert 
-        run: wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/latest/download/vmalert-linux-amd64 chmod +x vmalert-linux-amd64 
-        
-      - name: Validate all rule files 
+      - name: Download vmalert
         run: |
-            find teams -name "vmrule.yaml" -exec \ 
+          wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/latest/download/vmalert-linux-amd64
+          chmod +x vmalert-linux-amd64
+
+      - name: Validate all rule files
+        run: |
+            find teams -name "vmrule.yaml" -exec \
             ./vmalert-linux-amd64 -rule {} -dryRun \;
