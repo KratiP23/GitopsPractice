@@ -16,15 +16,15 @@ jobs:
       - name: YAML Lint
         run: yamllint .
 
+      - name: Download Prometheus
+        run: |
+          wget https://github.com/prometheus/prometheus/releases/download/v3.5.0/prometheus-3.5.0.linux-amd64.tar.gz
+          tar -xzf prometheus-3.5.0.linux-amd64.tar.gz
+
       - name: Validate Team A Rules
         run: |
-          docker run --rm \
-          -v ${{ github.workspace }}:/workspace \
-          victoriametrics/vmalert:v1.143.0 \
-          -rule=/workspace/teams/team-a/vmrule.yaml
+          ./prometheus-3.5.0.linux-amd64/promtool check rules teams/team-a/vmrule.yaml
 
       - name: Validate Team B Rules
         run: |
-          docker run --rm \
-          -v ${{ github.workspace }}:/workspace \
-          victoriametrics/vmalert:v1.143.0 \ -rule=/workspace/teams/team-b/vmrule.yaml
+          ./prometheus-3.5.0.linux-amd64/promtool check rules teams/team-b/vmrule.yaml
