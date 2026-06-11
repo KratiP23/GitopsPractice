@@ -1,25 +1,20 @@
-apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMRule
+groups:
+  - name: node-alerts
+    rules:
+      - alert: TargetDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Target down
+          description: Instance has been down for more than 2 minutes
 
-metadata:
-  name: team-b-rules
-  namespace: monitoring
-
-spec:
-  groups:
-
-    - name: team-b-alerts
-
-      rules:
-
-        - alert: TeamBTargetDown
-
-          expr: up{team="team-b"} == 0
-
-          for: 1m
-
-          labels:
-            severity: warning
-
-          annotations:
-            summary: Team B target is down
+      - alert: HighMemoryUsage
+        expr: "100 - ((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100) > 85"
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is above 85%"

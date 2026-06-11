@@ -1,25 +1,20 @@
-apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMRule
+groups:
+  - name: node-alerts
+    rules:
+      - alert: TargetDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Target down
+          description: Instance has been down for more than 2 minutes
 
-metadata:
-  name: team-a-rules
-  namespace: monitoring
-
-spec:
-  groups:
-
-    - name: team-a-alerts
-
-      rules:
-
-        - alert: TeamATargetDown
-
-          expr: up{team="team-a"} == 0
-
-          for: 1m
-
-          labels:
-            severity: critical
-
-          annotations:
-            summary: Team A target is down
+      - alert: HighCPUUsage
+        expr: "100 - (avg by(instance) (rate(node_cpu_seconds_total{mode='idle'}[5m])) * 100) > 85"
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: High CPU usage
+          description: CPU usage above 85%
