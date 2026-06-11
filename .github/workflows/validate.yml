@@ -16,12 +16,15 @@ jobs:
       - name: YAML Lint
         run: yamllint .
 
-      - name: Download vmalert
+      - name: Download Prometheus
         run: |
-          wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/latest/download/vmalert-linux-amd64
-          chmod +x vmalert-linux-amd64
+          wget https://github.com/prometheus/prometheus/releases/download/v3.5.0/prometheus-3.5.0.linux-amd64.tar.gz
+          tar -xzf prometheus-3.5.0.linux-amd64.tar.gz
 
-      - name: Validate all rule files
+      - name: Validate Team A Rules
         run: |
-            find teams -name "vmrule.yaml" -exec \
-            ./vmalert-linux-amd64 -rule {} -dryRun \;
+          ./prometheus-3.5.0.linux-amd64/promtool check rules teams/team-a/vmrule.yaml
+
+      - name: Validate Team B Rules
+        run: |
+          ./prometheus-3.5.0.linux-amd64/promtool check rules teams/team-b/vmrule.yaml
