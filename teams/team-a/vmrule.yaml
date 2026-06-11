@@ -18,3 +18,12 @@ groups:
         annotations:
           summary: High CPU usage
           description: CPU usage above 85%
+
+      - alert: HighMemoryUsage
+        expr: "100 - ((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100) > 85"
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is above 85%"
