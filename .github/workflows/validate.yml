@@ -18,7 +18,7 @@ jobs:
 
       - name: Download VictoriaMetrics
         run: |
-          wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.143.0/victoria-metrics-linux-amd64-v1.143.0.tar.gz 
+          wget https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.143.0/victoria-metrics-linux-amd64-v1.143.0.tar.gz
           tar -xzf victoria-metrics-linux-amd64-v1.143.0.tar.gz
 
       - name: Validate all rule files
